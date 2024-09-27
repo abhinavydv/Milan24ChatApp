@@ -3,6 +3,7 @@ from google.auth import exceptions
 from google.auth.transport import requests
 from google.oauth2 import id_token
 import os
+import traceback
 
 def try_details(Authorization: str):
     try:
@@ -31,7 +32,7 @@ def try_details(Authorization: str):
 
 def verify_auth_token(Authorization: str = Header()):
     email, name, l_name,f_name = try_details(Authorization)
-    return {"email": email, "name": name, "l_name": l_name, "f_name": f_name}
+    return {"email": email, "name": name, "lname": l_name, "fname": f_name}
 
 
 def authn_user(token):
@@ -39,7 +40,10 @@ def authn_user(token):
     print(CLIENT_ID)
     try:
         # Specify the CLIENT_ID of the app that accesses the backend:
+        print(token)
         idinfo = id_token.verify_oauth2_token(token, requests.Request(), CLIENT_ID)
+
+        print(idinfo)
 
         email = idinfo["email"]
         name = idinfo["name"]
@@ -48,7 +52,9 @@ def authn_user(token):
 
         return email, name, l_name, f_name
     except exceptions.InvalidValue as e:
+        traceback.print_exc()
         raise exceptions.InvalidValue("Token is invalid")
     except ValueError:
+        traceback.print_exc()
         # Invalid token
         return None

@@ -21,9 +21,9 @@ def get_user(user_id: int, db: Session = Depends(get_db)):
 
 @router.get("/login")
 def handle_login(details: dict = Depends(verify_auth_token), db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.email_id == details.email).first() 
+    user = db.query(User).filter(User.email_id == details["email"]).first() 
     if user is None:
-        user = User(email_id=details.email, first_name=details.name,first_name=details.fname,last_name=details.lname)
+        user = User(email_id=details["email"], first_name=details["fname"],last_name=details["lname"])
         db.add(user)
         db.commit()
         return {"message":"Sign Up Successful"}
