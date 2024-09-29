@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from uuid import uuid4
 from models import User as UserModel, Contact as ContactModel
 from schemas import UpdateProfile, AddContact, UserBase, ContactResponse
-from utils.auth import create_access_token, get_current_user, ACCESS_TOKEN_EXPIRE_MINUTES
+from utils.util import create_access_token, get_current_user, ACCESS_TOKEN_EXPIRE_MINUTES
 from datetime import timedelta
 from config.db import get_db
 import os
@@ -75,7 +75,7 @@ def add_contact(
     db.commit()
     return {"message": "Contact added"}
 
-@router.get("/contacts", response_model=List[ContactResponse])
+@router.get("/contacts", response_model=list[ContactResponse])
 def get_contacts(
     current_user: UserModel = Depends(get_current_user),
     db: Session = Depends(get_db),

@@ -5,7 +5,7 @@ from uuid import uuid4
 from models import Message as MessageModel, User as UserModel
 from schemas import MessageCreate, MessageResponse
 from config.db import get_db
-from utils.auth import get_current_user
+from utils.util import get_current_user
 from typing import List
 from datetime import datetime
 
